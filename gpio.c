@@ -1,44 +1,46 @@
 #include "gpio.h" 
 
 
-void pinmode(int pin, byte dir){
+void pinmode(int pin, char dir){
+  uint32_t reg = 0;
+  
   // GET PORT
-  char port = int(pin/10000);
-  if (port>3) port =- 16;
+  uint8_t port = (int)pin/10000;
+  if (port>3) port -= 16;
   
   // GET PIN
-  char pin = int(pin%10);
+  uint8_t pinbit = (int)pin%10;
   
   // ENABLE CLK FOR PORT
-  SET_BIT(reg, pin);
+  SET_BIT(SYSCTL_RCGCGPIO_R, port);
   
   // UNLOCK PIN
-  (GPIO_PORTA_LOCK_R + int(pin/10)) = 0x4C4F434B;
+  reg = (GPIO_PORTA_LOCK_R + (int)pin/10);
+  reg = 0x4C4F434B;
   
   // ENABLE PIN AS DIGITAL
-  reg = (GPIO_PORTA_DEN_R + int(pin/10));
-  SET_BIT(reg, pin);
+  reg = (GPIO_PORTA_DEN_R + (int)pin/10);
+  SET_BIT(reg, pinbit);
   
-  // GET DATA ADDRESS
-  reg = (GPIO_PORTA_DEN_R + int(pin/10));
+  // GET DIRECTION ADDRESS
+  reg = (GPIO_PORTA_DIR_R + (int)pin/10);
   
   switch(dir){
     case 0:
       // SET DIRECTION TO OUTPUT
-      SET_BIT(reg, pin);
+      SET_BIT(reg, pinbit);
       break;
       
     case 1:
       // SET DIRECTION TO INPUT
-      CLR_BIT(reg, pin);
-      break
+      CLR_BIT(reg, pinbit);
+      break;
     
     case 2:
       // SET DIRECTION TO INPUT WITH PULLUP
-      CLR_BIT(reg, pin);
-      reg = (GPIO_PORTA_PUR_R + int(pin/10));
-      CLR_BIT(reg, pin);
+      CLR_BIT(reg, pinbit);
+      reg = (GPIO_PORTA_PUR_R + (int)pin/10);
+      CLR_BIT(reg, pinbit);
       break;
-    }
   }
 }

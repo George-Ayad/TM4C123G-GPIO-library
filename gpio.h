@@ -14,4 +14,4 @@
 #define CLR_BIT(reg,bitN)       ((reg) &= ~(1<<bitN))
 #define GET_BIT(reg,bitN)       (1 & ((reg)>>bitN))
 
-void pinmode(int pin, byte dir);
+void pinmode(int pin, char dir);

@@ -4,3 +4,9 @@
 settings/
 
 Debug/
+
+*.dep
+
+*.ewd
+
+*.ewt
