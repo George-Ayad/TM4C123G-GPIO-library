@@ -7,14 +7,14 @@ void pinmode(uint8_t inPortPin, uint8_t dir){
   uint8_t pin = (uint8_t)(inPortPin%10);
   
   // GET PORT
-  uint8_t port = (uint8_t)inPortPin/10000;
+  uint8_t port = offset/1000;
   if (port>3) port -= 16;
   
   // ENABLE CLK FOR PORT
   SET_BIT(SYSCTL_RCGCGPIO_R, port);
   
   // UNLOCK PIN
-  (*((volatile uint32_t *)(0x40004520+offset))) = 0x4C4F434B; //DIRECTION
+  (*((volatile uint32_t *)(0x40004520+offset))) = 0x4C4F434B; //UNLOCK
   
   // ENABLE PIN AS DIGITAL
   SET_BIT( (*((volatile uint32_t *)(0x4000451C+offset))) , pin); //DIGITAL ENABLE
@@ -40,10 +40,10 @@ void pinmode(uint8_t inPortPin, uint8_t dir){
 
 
 // Write to pin
-void pinwrite(uint8_t inPortPin, uint8_t state){
+void pinwrite(uint8_t inPortPin1, uint8_t state){
   // GET OFFSET AND PIN
-  uint16_t offset = 1000*(uint8_t)(inPortPin/10);
-  uint8_t pin = (uint8_t)(inPortPin%10);
+  uint16_t offset = 1000*(uint8_t)(inPortPin1/10);
+  uint8_t pin = (uint8_t)(inPortPin1%10);
   // SET PIN TO HIGH OR LOW
   if(state == HIGH) SET_BIT( (*((volatile uint32_t *)(0x400043FC +offset))) , pin); //DATA
   else if(state == LOW) CLR_BIT( (*((volatile uint32_t *)(0x400043FC +offset))) , pin); //DATA
