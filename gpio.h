@@ -65,5 +65,5 @@
 #define CLR_BIT(reg,bitN)       ((reg) &= ~(1<<bitN))
 #define GET_BIT(reg,bitN)       (1 & ((reg)>>bitN))
 
-void pinmode(uint8_t pin, char dir);
-void pinwrite(uint8_t inPortPin, char state);
+void pinmode(uint8_t pin, uint8_t dir);
+void pinwrite(uint8_t inPortPin, uint8_t state);

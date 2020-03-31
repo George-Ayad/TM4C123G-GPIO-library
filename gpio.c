@@ -1,7 +1,7 @@
 #include "gpio.h" 
 
 // Define pin as input or output or input with pullup
-void pinmode(uint8_t inPortPin, char dir){  
+void pinmode(uint8_t inPortPin, uint8_t dir){  
   // GET OFFSET AND PIN
   uint16_t offset = 1000*(uint8_t)(inPortPin/10);
   uint8_t pin = (uint8_t)(inPortPin%10);
@@ -40,7 +40,7 @@ void pinmode(uint8_t inPortPin, char dir){
 
 
 // Write to pin
-void pinwrite(uint8_t inPortPin, char state){
+void pinwrite(uint8_t inPortPin, uint8_t state){
   // GET OFFSET AND PIN
   uint16_t offset = 1000*(uint8_t)(inPortPin/10);
   uint8_t pin = (uint8_t)(inPortPin%10);
