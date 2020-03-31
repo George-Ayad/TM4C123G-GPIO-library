@@ -37,3 +37,18 @@ void pinmode(uint8_t inPortPin, char dir){
       break;
   }
 }
+
+// Write to pin //
+
+void pinwrite(uint8_t inPortPin, char state)
+{
+   // GET OFFSET AND PIN
+  uint16_t offset = 1000*(uint8_t)(inPortPin/10);
+  uint8_t pin = (uint8_t)(inPortPin%10);
+  
+  if(state == HIGH)
+  {SET_BIT( (*((volatile uint32_t *)(0x400043FC +offset))) , pin);}
+  
+  else if(state == LOW)
+  { CLR_BIT( (*((volatile uint32_t *)(0x400043FC +offset))) , pin);}
+}

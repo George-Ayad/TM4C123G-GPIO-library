@@ -66,3 +66,4 @@
 #define GET_BIT(reg,bitN)       (1 & ((reg)>>bitN))
 
 void pinmode(uint8_t pin, char dir);
+void pinwrite(uint8_t inPortPin, char state);
