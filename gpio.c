@@ -1,6 +1,6 @@
 #include "gpio.h" 
 
-
+// Define pin as input or output or input with pullup
 void pinmode(uint8_t inPortPin, char dir){  
   // GET OFFSET AND PIN
   uint16_t offset = 1000*(uint8_t)(inPortPin/10);
@@ -31,24 +31,20 @@ void pinmode(uint8_t inPortPin, char dir){
       break;
     
     case 2:
-      // SET DIRECTION TO INPUT WITH AND SET PULLUP
+      // SET DIRECTION TO INPUT AND SET PULLUP
       CLR_BIT( (*((volatile uint32_t *)(0x40004400+offset))) , pin); //DIRECTION
       CLR_BIT( (*((volatile uint32_t *)(0x40004510+offset))) , pin); //PULLUP
       break;
   }
 }
 
-// Write to pin //
 
-void pinwrite(uint8_t inPortPin, char state)
-{
-   // GET OFFSET AND PIN
+// Write to pin
+void pinwrite(uint8_t inPortPin, char state){
+  // GET OFFSET AND PIN
   uint16_t offset = 1000*(uint8_t)(inPortPin/10);
   uint8_t pin = (uint8_t)(inPortPin%10);
-  
-  if(state == HIGH)
-  {SET_BIT( (*((volatile uint32_t *)(0x400043FC +offset))) , pin);}
-  
-  else if(state == LOW)
-  { CLR_BIT( (*((volatile uint32_t *)(0x400043FC +offset))) , pin);}
+  // SET PIN TO HIGH OR LOW
+  if(state == HIGH) SET_BIT( (*((volatile uint32_t *)(0x400043FC +offset))) , pin); //DATA
+  else if(state == LOW) CLR_BIT( (*((volatile uint32_t *)(0x400043FC +offset))) , pin); //DATA
 }
