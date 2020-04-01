@@ -59,3 +59,15 @@ void pinwrite(uint8_t inPortPin, uint8_t state){
   if(state == HIGH) SET_BIT( (*((volatile uint32_t *)(0x400043FC +offset))) , pin); //DATA
   else if(state == LOW) CLR_BIT( (*((volatile uint32_t *)(0x400043FC +offset))) , pin); //DATA
 }
+bool pinread(uint8_t inPortPin){
+    // GET PORT
+  uint8_t port = inPortPin/10;
+  
+  // GET OFFSET
+  uint32_t offset = port>3 ? port+0x1C : port;
+  offset = offset * 0x1000;
+  
+  // GET PIN
+  uint8_t pin = inPortPin%10;
+  return GET_BIT( (*((volatile uint32_t *)(0x400043FC +offset))) , pin); //DATA
+}

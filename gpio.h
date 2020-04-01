@@ -1,6 +1,12 @@
 #include <stdint.h>
 #include "tm4c123gh6pm.h"
 
+#define R-led   51
+#define B-led   52
+#define G-led   53
+#define Pb1     50
+#define Pb2     54
+
 #define PA0     00
 #define PA1     01
 #define PA2     02
@@ -67,3 +73,4 @@
 
 void pinmode(uint8_t inPortPin, uint8_t dir);
 void pinwrite(uint8_t inPortPin, uint8_t state);
+bool pinread(uint8_t inPortPin);
