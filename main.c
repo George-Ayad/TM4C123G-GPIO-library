@@ -8,12 +8,18 @@ void delay_ms(int nCount){ /* Wait function */
 
 int main()
 {
-  pinmode(PF1, OUTPUT);
+  pinmode(RLED, OUTPUT);
+  pinmode(PushButton1, PULLUP);
+  
   while (1){
-    pinwrite(PF1, HIGH);
-    delay_ms(1000);
-    pinwrite(PF1, LOW);
-    delay_ms(1000);
+    pinwrite(RLED, HIGH);
+    delay_ms(100);
+    pinwrite(RLED, LOW);
+    delay_ms(100);
+    int k = pinread(PushButton1);
+    if(k == HIGH)pinwrite(GLED, HIGH);
+    else pinwrite(GLED, LOW);
+    
   }
   return 0;
 }
