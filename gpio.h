@@ -60,9 +60,10 @@
 #define PF4     54
 
 
-#define INPUT   1
-#define OUTPUT  0
-#define PULLUP  2
+#define INPUT           1
+#define OUTPUT          0
+#define PULLUP          2
+#define PULLDOWN        3
 
 #define HIGH    1
 #define LOW     0

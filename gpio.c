@@ -1,6 +1,7 @@
 #include "gpio.h" 
 
-// Define pin as input or output or input with pullup
+
+// Define pin as input, output, input with pullup or input with pulldown
 void pinmode(uint8_t inPortPin, uint8_t dir){  
     // GET PORT
   uint8_t port = inPortPin/10;
@@ -15,8 +16,11 @@ void pinmode(uint8_t inPortPin, uint8_t dir){
   // ENABLE CLK FOR PORT
   SET_BIT(SYSCTL_RCGCGPIO_R, port);
   
-  // UNLOCK PIN
+  // UNLOCK PORT
   (*((volatile uint32_t *)(0x40004520+offset))) = 0x4C4F434B; //UNLOCK
+  
+  // ENABLE PIN COMMIT
+  SET_BIT( (*((volatile uint32_t *)(0x40004524+offset))) , pin); //COMMIT
   
   // ENABLE PIN AS DIGITAL
   SET_BIT( (*((volatile uint32_t *)(0x4000451C+offset))) , pin); //DIGITAL ENABLE
@@ -24,20 +28,24 @@ void pinmode(uint8_t inPortPin, uint8_t dir){
   switch(dir){
     case 0:
       // SET DIRECTION TO OUTPUT
-      SET_BIT( (*((volatile uint32_t *)(0x40004400+offset))) , pin); //DIRECTION
-      CLR_BIT( (*((volatile uint32_t *)(0x40004510+offset))) , pin); // clear PULLUP
+      SET_BIT( (*((volatile uint32_t *)(0x40004400+offset))) , pin); // DIRECTION
       break;
       
     case 1:
       // SET DIRECTION TO INPUT
-      CLR_BIT( (*((volatile uint32_t *)(0x40004400+offset))) , pin); //DIRECTION
-      CLR_BIT( (*((volatile uint32_t *)(0x40004510+offset))) , pin); // clear PULLUP
+      CLR_BIT( (*((volatile uint32_t *)(0x40004400+offset))) , pin); // DIRECTION
       break;
     
     case 2:
       // SET DIRECTION TO INPUT AND SET PULLUP
-      CLR_BIT( (*((volatile uint32_t *)(0x40004400+offset))) , pin); //DIRECTION
+      CLR_BIT( (*((volatile uint32_t *)(0x40004400+offset))) , pin); // DIRECTION
       SET_BIT( (*((volatile uint32_t *)(0x40004510+offset))) , pin); // set PULLUP
+      break;
+      
+    case 3:
+      // SET DIRECTION TO INPUT AND SET PULLDOWN
+      CLR_BIT( (*((volatile uint32_t *)(0x40004400+offset))) , pin); // DIRECTION
+      SET_BIT( (*((volatile uint32_t *)(0x40004514+offset))) , pin); // set PULLDOWN
       break;
   }
 }
@@ -59,6 +67,9 @@ void pinwrite(uint8_t inPortPin, uint8_t state){
   if(state == HIGH) SET_BIT( (*((volatile uint32_t *)(0x400043FC +offset))) , pin); //DATA
   else if(state == LOW) CLR_BIT( (*((volatile uint32_t *)(0x400043FC +offset))) , pin); //DATA
 }
+
+
+// read from pin
 uint8_t pinread(uint8_t inPortPin){
   // GET PORT
   uint8_t port = inPortPin/10;
