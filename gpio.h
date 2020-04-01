@@ -38,20 +38,20 @@
 #define PD6     36
 #define PD7     37
 
-#define PE0     200
-#define PE1     201
-#define PE2     202
-#define PE3     203
-#define PE4     204
-#define PE5     205
-#define PE6     206
-#define PE7     207
+#define PE0     40
+#define PE1     41
+#define PE2     42
+#define PE3     43
+#define PE4     44
+#define PE5     45
+#define PE6     46
+#define PE7     47
 
-#define PF0     210
-#define PF1     211
-#define PF2     212
-#define PF3     213
-#define PF4     214
+#define PF0     50
+#define PF1     51
+#define PF2     52
+#define PF3     53
+#define PF4     54
 
 
 #define INPUT   1
@@ -66,4 +66,4 @@
 #define GET_BIT(reg,bitN)       (1 & ((reg)>>bitN))
 
 void pinmode(uint8_t inPortPin, uint8_t dir);
-void pinwrite(uint8_t inPortPin1, uint8_t state);
+void pinwrite(uint8_t inPortPin, uint8_t state);

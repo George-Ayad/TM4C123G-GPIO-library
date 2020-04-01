@@ -2,13 +2,15 @@
 
 // Define pin as input or output or input with pullup
 void pinmode(uint8_t inPortPin, uint8_t dir){  
-  // GET OFFSET AND PIN
-  uint16_t offset = 1000*(uint8_t)(inPortPin/10);
-  uint8_t pin = (uint8_t)(inPortPin%10);
+    // GET PORT
+  uint8_t port = inPortPin/10;
   
-  // GET PORT
-  uint8_t port = offset/1000;
-  if (port>3) port -= 16;
+  // GET OFFSET
+  uint32_t offset = port>3 ? port+0x1C : port;
+  offset = offset * 0x1000;
+  
+  // GET PIN
+  uint8_t pin = inPortPin%10;
   
   // ENABLE CLK FOR PORT
   SET_BIT(SYSCTL_RCGCGPIO_R, port);
@@ -40,10 +42,17 @@ void pinmode(uint8_t inPortPin, uint8_t dir){
 
 
 // Write to pin
-void pinwrite(uint8_t inPortPin1, uint8_t state){
-  // GET OFFSET AND PIN
-  uint16_t offset = 1000*(uint8_t)(inPortPin1/10);
-  uint8_t pin = (uint8_t)(inPortPin1%10);
+void pinwrite(uint8_t inPortPin, uint8_t state){
+    // GET PORT
+  uint8_t port = inPortPin/10;
+  
+  // GET OFFSET
+  uint32_t offset = port>3 ? port+0x1C : port;
+  offset = offset * 0x1000;
+  
+  // GET PIN
+  uint8_t pin = inPortPin%10;
+  
   // SET PIN TO HIGH OR LOW
   if(state == HIGH) SET_BIT( (*((volatile uint32_t *)(0x400043FC +offset))) , pin); //DATA
   else if(state == LOW) CLR_BIT( (*((volatile uint32_t *)(0x400043FC +offset))) , pin); //DATA
