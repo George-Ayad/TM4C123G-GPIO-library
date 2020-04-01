@@ -25,17 +25,19 @@ void pinmode(uint8_t inPortPin, uint8_t dir){
     case 0:
       // SET DIRECTION TO OUTPUT
       SET_BIT( (*((volatile uint32_t *)(0x40004400+offset))) , pin); //DIRECTION
+      CLR_BIT( (*((volatile uint32_t *)(0x40004510+offset))) , pin); // clear PULLUP
       break;
       
     case 1:
       // SET DIRECTION TO INPUT
       CLR_BIT( (*((volatile uint32_t *)(0x40004400+offset))) , pin); //DIRECTION
+      CLR_BIT( (*((volatile uint32_t *)(0x40004510+offset))) , pin); // clear PULLUP
       break;
     
     case 2:
       // SET DIRECTION TO INPUT AND SET PULLUP
       CLR_BIT( (*((volatile uint32_t *)(0x40004400+offset))) , pin); //DIRECTION
-      CLR_BIT( (*((volatile uint32_t *)(0x40004510+offset))) , pin); //PULLUP
+      SET_BIT( (*((volatile uint32_t *)(0x40004510+offset))) , pin); // set PULLUP
       break;
   }
 }
