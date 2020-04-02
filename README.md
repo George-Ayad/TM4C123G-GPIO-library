@@ -3,6 +3,8 @@ ASU CSE 318 Lab Group Assignment - TM4C123G Tiva-C GPIO management library
 
 Github repo link:	https://github.com/George-Ayad/TM4C123G-GPIO-library
 
+main.c file contains an example for all functions of this library
+
 
 
 ## Usage
