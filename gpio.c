@@ -1,6 +1,12 @@
 #include "gpio.h" 
 
 
+
+/// Written by : George Guirguis ///
+
+
+
+
 // Define pin as input, output, input with pullup or input with pulldown
 void pinmode(uint8_t inPortPin, uint8_t dir){  
     // GET PORT
@@ -51,6 +57,13 @@ void pinmode(uint8_t inPortPin, uint8_t dir){
 }
 
 
+
+
+/// Written by : Omar Zohdi ///
+
+
+
+
 // Write to pin
 void pinwrite(uint8_t inPortPin, uint8_t state){
     // GET PORT
@@ -67,6 +80,13 @@ void pinwrite(uint8_t inPortPin, uint8_t state){
   if(state == HIGH) SET_BIT( (*((volatile uint32_t *)(0x400043FC +offset))) , pin); //DATA
   else if(state == LOW) CLR_BIT( (*((volatile uint32_t *)(0x400043FC +offset))) , pin); //DATA
 }
+
+
+
+
+/// Written by : Abanoub Tarek ///
+
+
 
 
 // read from pin

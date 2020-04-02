@@ -1,5 +1,8 @@
 #include "gpio.h" 
 
+/// written by : Fady Mina ///
+
+
 void delay_ms(int nCount){ /* Wait function */ 
   nCount=nCount*16000; 
   while (nCount--);
